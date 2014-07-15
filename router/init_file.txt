@@ -1,0 +1,4 @@
+client ifconfig client-eth0 hw ether 76:95:a8:94:c5:b8
+server1 ifconfig server1-eth0 hw ether 8e:1e:4e:98:5c:59
+server2 ifconfig server2-eth0 hw ether d6:52:d6:68:d1:b6
+
