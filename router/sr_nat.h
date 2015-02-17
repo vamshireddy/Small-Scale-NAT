@@ -1,6 +1,3 @@
-#include<stdio.h>
-
-
 
 // This header file has all the definetions of the NAT structures and functions.
 
@@ -18,6 +15,7 @@ typedef struct nat_session
 	uint16_t dst_port;	
 	time_t last_refresh_time; // Last time this session was used
 	uint8_t direction;	// Direction of session initiation
+	uint8_t protocol;	// UDP,TCP,ICMP
 }nat_session_t;
 
 

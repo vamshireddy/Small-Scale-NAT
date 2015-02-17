@@ -393,8 +393,9 @@ void handle_ICMP(struct sr_instance* sr,uint8_t* ip_packet_start,int len,short t
 int router_handle_packet(struct sr_instance* sr,uint8_t* ip_packet_start,int len,char* interface)
 {
 	sr_ip_hdr_t* ip_header = (sr_ip_hdr_t*)ip_packet_start;
+
+
 	/* Check if the above protocol is TCP/UDP or ICMP */
-	
 	uint8_t protocol = ip_header->ip_p;
 	if( protocol == TCP_PROTOCOL || protocol == UDP_PROTOCOL)
 	{
@@ -437,6 +438,10 @@ int decrement_TTL(sr_ip_hdr_t* ip_hdr)
 	}
 	return 1;
 }
+
+///////////////////////////// PACKET CALL BACK FUNCTION //////////////////////////////////
+// This will be called when a new packet arrives on any interface of the router
+
 
 void sr_handlepacket(struct sr_instance* sr,
         uint8_t * packet/* lent */,
@@ -536,7 +541,12 @@ void sr_handlepacket(struct sr_instance* sr,
 			}
 			else
 			{
-				/* Packet should be forewarded */
+				/* 
+					Packet is subjected to NAT translation first and then forwarded 
+					1) Check if there are any existing sessions for this packet, if any use them to translate the packets
+					2) If there aren't any, then allocate a new session and translate the packet.
+				*/
+				
 				forward_packet(sr,ip_packet,len,interface);
 			}
 		}
